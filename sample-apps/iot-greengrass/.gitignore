@@ -1,0 +1,7 @@
+*.key
+*.pem
+*.zip
+certs.json
+bucket-name.txt
+core-*/*
+device-*/*
