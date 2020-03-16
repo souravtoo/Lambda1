@@ -14,8 +14,8 @@ if [ -f bucket-name.txt ]; then
     done
 fi
 if [ -f certs.json ]; then
-    CORECERTID=$(cat certs.json | jq -r '.CoreCertificateId')
-    DEVICECERTID=$(cat certs.json | jq -r '.DeviceCertificateId')
+    CORECERTID=$(cat certs.json | jq -r '.CoreCertificateArn | split("/")[1]')
+    DEVICECERTID=$(cat certs.json | jq -r '.DeviceCertificateArn | split("/")[1]')
     while true; do
         read -p "Delete certs?" response
         case $response in
