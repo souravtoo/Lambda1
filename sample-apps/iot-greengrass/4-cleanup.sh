@@ -19,12 +19,12 @@ if [ -f certs.json ]; then
     while true; do
         read -p "Delete certs?" response
         case $response in
-            [Yy]* ) aws iot update-certificate --certificate-id $CORECERTID --new-status INACTIVE && aws iot update-certificate --certificate-id $DEVICECERTID --new-status INACTIVE && aws iot delete-certificate --certificate-id $CORECERTID && aws iot delete-certificate --certificate-id $DEVICECERTID && rm core.* device.*; break;;
+            [Yy]* ) aws iot update-certificate --certificate-id $CORECERTID --new-status INACTIVE && aws iot update-certificate --certificate-id $DEVICECERTID --new-status INACTIVE && aws iot delete-certificate --certificate-id $CORECERTID && aws iot delete-certificate --certificate-id $DEVICECERTID; break;;
             [Nn]* ) break;;
             * ) echo "Response must start with y or n.";;
         esac
     done
 fi
 
-rm -f out.yml out.json
+rm -f certs.json out.yml out.json
 rm -rf function/node_modules function/package-lock.json
