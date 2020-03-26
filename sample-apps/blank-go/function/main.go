@@ -4,6 +4,7 @@ import (
   "os"
   "fmt"
   "log"
+  "strings"
   "context"
   "encoding/json"
   runtime "github.com/aws/aws-lambda-go/lambda"
@@ -13,18 +14,12 @@ import (
   "github.com/aws/aws-sdk-go/service/lambda"
 )
 
-type MyEvent struct {
-  Name string `json:"name"`
-}
-
-func init() {
-}
+var client = lambda.New(session.New())
 
 func callLambda(){
   // Example sending a request using the GetAccountSettingsRequest method.
-  svc := lambda.New(session.New())
   input := &lambda.GetAccountSettingsInput{}
-  req, resp := svc.GetAccountSettingsRequest(input)
+  req, resp := client.GetAccountSettingsRequest(input)
 
   err := req.Send()
   if err == nil {
@@ -35,8 +30,14 @@ func handleRequest(ctx context.Context, event events.SQSEvent) (string, error) {
 	// event
 	eventJson, _ := json.MarshalIndent(event, "", "  ")
 	log.Printf("EVENT: %s", eventJson)
-	// environment variable
+	// environment variables
   log.Printf("REGION: %s", os.Getenv("AWS_REGION"))
+  log.Println("ALL ENV VARS:")
+  for _, e := range os.Environ() {
+    pair := strings.SplitN(e, "=", 2)
+    fmt.Println(pair[0])
+  }
+  
   // request context
   lc, _ := lambdacontext.FromContext(ctx)
   log.Printf("REQUEST ID: %s", lc.AwsRequestID)
