@@ -16,6 +16,9 @@ import (
 
 var client = lambda.New(session.New())
 
+func init() {
+  callLambda()
+}
 func callLambda() (string, error) {
   // Example sending a request using the GetAccountSettingsRequest method.
   input := &lambda.GetAccountSettingsInput{}
